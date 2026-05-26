@@ -7,7 +7,7 @@
 | 服务 | 镜像 | 用途 |
 |------|------|------|
 | PostgreSQL | postgres:17 | 关系型数据库 |
-| Redis | redis:8-alpine | 缓存/消息队列 |
+| Redis | redis:8.0 | 缓存/消息队列 |
 | ClickHouse | clickhouse/clickhouse-server:25.12 | OLAP 分析 |
 | Neo4j | neo4j:5-community | 图数据库 |
 | MinIO | minio/minio:latest | 对象存储 |

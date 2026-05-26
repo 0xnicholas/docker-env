@@ -167,7 +167,7 @@ services:
   clickhouse:
     ports:
       - "${CLICKHOUSE_PORT:-8123}:8123"
-      - "${CLICKHOUSE_NATIVE_PORT:-9000}:9000"
+      - "${CLICKHOUSE_NATIVE_PORT:-9010}:9010"
 
   neo4j:
     ports:
@@ -205,7 +205,7 @@ REDIS_PORT=6379
 CLICKHOUSE_USER=default
 CLICKHOUSE_PASSWORD=clickhouse
 CLICKHOUSE_PORT=8123
-CLICKHOUSE_NATIVE_PORT=9000
+CLICKHOUSE_NATIVE_PORT=9010
 
 NEO4J_AUTH=neo4j/password
 NEO4J_BOLT_PORT=7687
@@ -370,7 +370,7 @@ docker compose up
 ## 8. 已知限制与注意事项
 
 1. **端口冲突**：`.env` 中的默认端口（5432、6379 等）若与本地已安装服务冲突，可修改 `.env` 中的 `*_PORT` 变量
-2. **MinIO 端口**：MinIO API 默认使用 9000，与 ClickHouse Native 端口冲突。当前设计将 ClickHouse Native 设为 9000，MinIO API 也设为 9000——**需修正**。建议 MinIO API 改为 9100 或 ClickHouse Native 改为 9010
+2. **MinIO 端口**：MinIO API 默认使用 9000，与 ClickHouse Native 端口冲突。已修正：ClickHouse Native 端口改为 9010
 3. **密码安全**：`.env` 中为开发弱密码，生产环境应通过外部 secret 注入
 4. **pgvector**：当前 PostgreSQL 17 需单独安装 pgvector 扩展。未来可在 `docker-compose.yml` 中切换到 `pgvector/pgvector:pg17` 镜像，或提供初始化 SQL 安装扩展
 

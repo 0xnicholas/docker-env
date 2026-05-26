@@ -167,7 +167,7 @@ services:
   clickhouse:
     ports:
       - "${CLICKHOUSE_PORT:-8123}:8123"
-      - "${CLICKHOUSE_NATIVE_PORT:-9010}:9010"
+      - "${CLICKHOUSE_NATIVE_PORT:-9010}:9000"
 
   neo4j:
     ports:

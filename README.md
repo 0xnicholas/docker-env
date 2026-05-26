@@ -69,14 +69,28 @@ networks:
 
 ## Python 基础镜像
 
+基于官方 `python:3.14`，预装各项目大概率需要的通用依赖，避免每个项目重复构建相同层。
+
+### 预装依赖
+
+- `psycopg[binary]` — PostgreSQL 驱动
+- `redis` — Redis 客户端
+- `httpx` — HTTP 请求
+- `pydantic` — 数据校验
+- `python-dotenv` — 环境变量读取
+
+### 构建
+
 ```bash
-# 构建基础镜像
 docker build -t docker-env-python:latest images/python/
 ```
 
+### 在其他项目中使用
+
 ```dockerfile
-# 在其他项目中使用
 FROM docker-env-python:latest
+
+WORKDIR /app
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 COPY . .

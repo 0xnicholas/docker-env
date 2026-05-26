@@ -19,6 +19,7 @@ done
 COMPOSE_FILES=(-f "$COMPOSE_DIR/docker-compose.yml")
 $EXT && COMPOSE_FILES+=(-f "$COMPOSE_DIR/docker-compose.ext.yml")
 $DEV && COMPOSE_FILES+=(-f "$COMPOSE_DIR/docker-compose.dev.yml")
+$EXT && $DEV && COMPOSE_FILES+=(-f "$COMPOSE_DIR/docker-compose.ext.dev.yml")
 
 echo "启动命令: docker compose ${COMPOSE_FILES[*]} up -d"
 docker compose "${COMPOSE_FILES[@]}" --env-file "$ENV_FILE" up -d

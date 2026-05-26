@@ -1,6 +1,16 @@
+# 开发模式：端口绑定到宿主机
+# Docker Compose 自动加载此文件
 version: "3.8"
 
 services:
+  postgres:
+    ports:
+      - "${POSTGRES_PORT:-15432}:5432"
+
+  redis:
+    ports:
+      - "${REDIS_PORT:-16379}:6379"
+
   clickhouse:
     ports:
       - "${CLICKHOUSE_PORT:-8123}:8123"

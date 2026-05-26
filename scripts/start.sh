@@ -16,10 +16,17 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-COMPOSE_FILES=(-f "$COMPOSE_DIR/docker-compose.yml")
-$EXT && COMPOSE_FILES+=(-f "$COMPOSE_DIR/docker-compose.ext.yml")
-$DEV && COMPOSE_FILES+=(-f "$COMPOSE_DIR/docker-compose.dev.yml")
-$EXT && $DEV && COMPOSE_FILES+=(-f "$COMPOSE_DIR/docker-compose.ext.dev.yml")
+PROFILE=()
+$EXT && PROFILE+=(--profile ext)
 
-echo "启动命令: docker compose ${COMPOSE_FILES[*]} up -d"
-docker compose "${COMPOSE_FILES[@]}" --env-file "$ENV_FILE" up -d
+cd "$COMPOSE_DIR"
+
+if $DEV; then
+  # 自动加载 docker-compose.yml + docker-compose.override.yml
+  echo "启动命令: docker compose ${PROFILE[*]} --env-file $ENV_FILE up -d"
+  docker compose "${PROFILE[@]}" --env-file "$ENV_FILE" up -d
+else
+  # 显式指定 -f，阻止 override 加载
+  echo "启动命令: docker compose -f docker-compose.yml ${PROFILE[*]} --env-file $ENV_FILE up -d"
+  docker compose -f docker-compose.yml "${PROFILE[@]}" --env-file "$ENV_FILE" up -d
+fi

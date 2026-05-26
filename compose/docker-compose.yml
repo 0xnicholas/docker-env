@@ -34,9 +34,54 @@ services:
       timeout: 5s
       retries: 5
 
+  clickhouse:
+    image: clickhouse/clickhouse-server:${CLICKHOUSE_VERSION:-25.12}
+    container_name: docker-env-clickhouse
+    restart: unless-stopped
+    profiles:
+      - ext
+    environment:
+      CLICKHOUSE_USER: ${CLICKHOUSE_USER:-default}
+      CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD:-clickhouse}
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse
+    networks:
+      - shared
+
+  neo4j:
+    image: neo4j:${NEO4J_VERSION:-5-community}
+    container_name: docker-env-neo4j
+    restart: unless-stopped
+    profiles:
+      - ext
+    environment:
+      NEO4J_AUTH: ${NEO4J_AUTH:-neo4j/password}
+    volumes:
+      - neo4j_data:/data
+    networks:
+      - shared
+
+  minio:
+    image: minio/minio:${MINIO_VERSION:-latest}
+    container_name: docker-env-minio
+    restart: unless-stopped
+    profiles:
+      - ext
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+    volumes:
+      - minio_data:/data
+    networks:
+      - shared
+
 volumes:
   postgres_data:
   redis_data:
+  clickhouse_data:
+  neo4j_data:
+  minio_data:
 
 networks:
   shared:

@@ -90,9 +90,8 @@ docker-env/
 ├── .env                          # 版本锁定 & 配置
 ├── .env.example                  # 配置模板
 ├── compose/
-│   ├── docker-compose.yml        # 核心服务
-│   ├── docker-compose.ext.yml    # 扩展服务
-│   └── docker-compose.dev.yml    # 开发模式端口
+│   ├── docker-compose.yml        # 所有服务定义
+│   └── docker-compose.override.yml   # 开发模式端口（自动加载）
 ├── images/
 │   └── python/
 │       ├── Dockerfile
@@ -105,10 +104,10 @@ docker-env/
 
 ## 版本升级
 
-修改 `.env` 中的版本号，重启服务即可：
+修改 `.env` 中的版本号，拉取并重启：
 
 ```bash
-./scripts/start.sh --ext
-docker compose -f compose/docker-compose.yml pull
-docker compose -f compose/docker-compose.yml up -d
+cd compose
+docker compose --profile ext pull
+docker compose --profile ext up -d
 ```
